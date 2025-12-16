@@ -1,229 +1,147 @@
-# learning-kubernetes-16086900
-learning kubernetes course by Kim Schlesinger
+# harness
 
+- Harness is a modern software delivery platform built to automate and accelerate the entire CI/CD and DevOps lifecycle, helping teams build, test, deploy, verify, and manage applications reliably and at scale.
 
-Key points about Kubernetes:
-- Container Orchestration: Kubernetes automates the deployment, scaling, and management of containerized applications.
-- Scalability: It can handle large-scale applications, scaling up or down based on demand.
-- Flexibility: Kubernetes can run on various environments, including on-premises data centers, public clouds, or hybrid setups.
-- Community Support: It has a large community of contributors and is one of the biggest open-source projects, second only to the Linux kernel.
 
+# Overview / Summary
 
-Containers:
-- A technology that bundles the code for an app, & the configs required to run the code itself, in 1 unit
+Harness provides a unified platform for:
+- Continuous Integration (CI) – builds & test automation
+- Continuous Delivery (CD) – automated deployment and rollbacks
+- Feature Management – feature flags & controlled rollout
+- Cloud Cost Management – real-time cost optimization
+- Security & Governance – automated checks & compliance
+- AI-Driven Insights – larger automation and optimization via machine learning 
+Harness aims to reduce manual toil in software delivery, improve reliability, and shorten release cycles. 
 
 
-Container Advantages:
-- Portable: Runs on any Linux, Windoes, or macOS machine
-- Use less CPUs & memory, saving money
-- Self-contained, can be spun up/down in sec
-- Quick replications & elastically scale up/down
+# How Harness Works (CI/CD Lifecycle)
+Harness orchestrates software delivery through a pipeline of automated stages.
 
+🧠 Core Workflow Steps
+1. Trigger
+- A code change in Git (GitHub, GitLab, Bitbucket etc.) triggers the pipeline automatically.
+- Configurations can be stored in YAML or defined in a visual editor. 
 
-Image:
-- A container image is a file with executable code that can be run as a container
+2. Continuous Integration (CI)
+- Code is checked out and built on dedicated VMs or containers.
+- Harness CI runs tests, compiles artifacts, and optimizes builds with test/caching intelligence. 
 
+3. Continuous Delivery (CD)
+- Successfully built artifacts are deployed to environments such as staging or production.
+- Supports deployment strategies: rolling, blue/green, canary, etc. 
 
-Container Registry:
-- A DB that stores container images; these images can be available to the public/private for those people/service accounts with permissions
-    - Docker Hub
-    - Quay
-    - Google Container Registry
+4. Verification
+- After deployment, Harness can automatically verify health via metrics and test results to ensure stability.
+- It can automatically handle rollbacks if issues are detected. 
 
+5. Governance & Visibility
+- Dashboards track metrics like DORA, deployment success, and failure trends.
+- Role-based access and approval gates enforce governance. 
 
 
-Cloud-native Tech
-- Empower org to buils & run scalable apps in moderns, dynamic envs such as public, private, & hybrid clouds
-- Containers, service meshes, microservices, immutable infra, & declarative APIs exemplify this approach
-- Open-source projects designed to let technologists use cloud computing services to automatically deploy & scale apps
+# Harness Architecture (Conceptual)
 
+| Component                  | Role                                                                                                                                |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Harness Manager**        | Central control plane managing configuration, pipelines, access, policies & UI.                                                     |
+| **Harness Delegate**       | Lightweight agent that runs pipeline steps *in your environment* (cloud, on-prem, Kubernetes, VMs).                                 |
+| **Build Infrastructure**   | Virtual machines or containers that execute steps for CI/CD workflows (build, test, deploy).                                        |
+| **Git-based SCM**          | Source of truth for app code and pipeline configs (YAML).                                                                           |
+| **Artifacts & Registries** | Stores build artifacts (Docker images, etc.) for deployments.                                                                       |
+| **Integrations**           | Hooks into cloud providers (AWS, Azure, GCP), service meshes, Kubernetes, monitoring & security tools.                              |
 
-YAML -> For data serialization -> makes it portable
 
-BusyBox
-- Once you deploy something in your Kubernetes cluster, you want to verify that the application is working as expected. 
-- But how can you check? One way is to use a tool called BusyBox. 
-- BusyBox is known as the Swiss Army Knife of embedded Linux, 
-- and it's a binary that contains many well-known Unix tools like Awk, Date, Who am I and Wget? 
-- It's a good tool for debugging and troubleshooting issues in a Linux environment and Kubernetes runs on Linux.
 
+# Detailed Component Roles
+🛡 Harness Manager
+- Central console (SaaS or self-hosted)
+- Manages pipelines, dashboards, governance
+- Stores policies, templates, user roles, audit logs 
 
-Commands:
-minikube start
-alias k="kubectl"
-k get namespace
-k apply -f namespace.yaml
-k delete -f namespace.yaml
-k apply -f deployment.yaml
-k get deployments -n development
-k get pods                                        # run in default namespace
-k get pods -n development
-k delete pod {pod name} -n development
-k describe pod {pod name} -n development          # Check the health of a pod by looking at event log
+🔌 Harness Delegate
+- Installed in customer environments
+- Talks to Git, cloud providers, registries
+- Executes build/test/deploy steps
+- Sends logs & metrics back to the Manager 
 
-k apply -f busybox.yaml   
+🧪 CI Execution Environment
+- Builds/tests code on Harness-managed VMs or containers
+- Uses caching and test selection to speed up execution 
 
-k exec -it {busybox pod name} -- /bin/sh 
-                                    executable shell
+📦 Artifact Management
+- Produced artifacts are stored centrally
+- Used for deployments and traceability 
 
-wget
-wget {container IP}
-wget {container IP}:{container port}
-cat index.html
-exit
+📊 Verification & Observability
+- Continuous verification post-deployment
+- Observes metrics, health checks, deploy status
+- Triggers rollbacks if configured conditions fail 
 
 
-k logs {pod name} -n development
+# Harness Features & Capabilities
+🚀 Automated CI
+- Visual + YAML pipeline editors
+- Smart caching and test intelligence
+- Fast builds with optimized infrastructure 
 
+📡 Automated CD
+- Deployment strategies (canary, blue/green)
+- Progressive delivery & approvals
+- Rollbacks and resilience policies 
 
+🔍 Continuous Verification
+- Monitoring and data-based confirmation of deploy health
+- Reduces manual oversight 
 
+🧠 AI & Intelligence
+- AI agents assist test selection, build optimization, security insights, cost optimization. 
 
+🧑‍💻 Feature Management / Flags
+- Toggle features in production
+- Support for gradual rollouts and experiments 
 
+📊 Cloud Cost Management
+- Real-time insights into cloud spend
+- Recommendations to optimize costs 
 
-minikube tunnel
-k apply -f service.yaml
-k get services -n development
+🔐 Governance & Security
+- RBAC, audit trails, policy enforcement
+- Integrates with security scans & compliance tools 
+Harness.io
+Harness.io
 
-check in browser:  http://127.0.0.1/
 
-ps aux | grep tunnel
-sudo pkill -f "minikube tunnel"
-sudo -E minikube tunnel
+# Pipeline Definition: YAML + Visual
+Harness lets you define pipelines as code (YAML) or visually:
 
+Example concept (simplified):
+pipeline:
+  name: MyApp CI/CD
+  stages:
+    - name: Build
+      steps:
+        - run: npm install
+        - run: npm test
+    - name: Deploy
+      steps:
+        - deploy: canary to production
 
-- How much memory & cpu should be minimum present for the pod to be scheudled
-- How much max memory & cpu the pod can consume
+This approach makes pipelines versionable and shareable. 
 
-resources:
-    requests:
-        memory: "64Mi"
-        cpu: "250m"
-    limits:
-        memory: "128Mi"
-        cpu: "500m"
 
 
+# Why Use Harness? (Benefits)
+- Automation – reduces manual scripting
+- Speed – faster builds & deployments
+- Reliability – automatic verification & rollback
+- Visibility – dashboards + metrics
+- Governance – policy-driven controls
+- Integration – works with existing tools & clouds 
 
-- For cleanup:
 
-k delete -f busybox.yaml
-k delete -f deployment.yaml
-k delete -f quote.yaml
-k delete -f services.yaml
-k delete -f namespace.yaml    
+# Summary (README.md ready)
+Harness is a modern CI/CD and software delivery platform that automates build, test, deployment, verification, and governance across environments with strong integrations, AI-driven optimizations, and visual/YAML pipelines. Its architecture centers on a Manager + Delegate model, with scalable execution and deep visibility into every stage of delivery. Harness supports advanced deployment strategies, governance policies, cost optimization, and intelligent automation to help teams ship software faster and safer. 
 
-- namespace will delete everything so delete at last
 
 
-
-
-
-
-# Kubernetes Architecture
-
-- Kubernetes Cluster: A cluster consists of a control plane and at least one worker node.
-- Control Plane Components: The control plane includes several components such as the Kube API Server, etcd, kube scheduler, kube-controller-manager, and cloud controller manager.
-- Kube API Server: Exposes the Kubernetes API and handles most requests. It's essential for the cluster's existence.
-- etcd: A key-value store that saves all data about the state of the cluster.
-- kube scheduler: Assigns newly created pods to worker nodes.
-- Kube-controller-manager: Ensures the cluster is running properly by checking the status of nodes and other components.
-- Cloud Controller Manager: Connects the cluster with a cloud provider's API for using cloud resources.
-
-These components work together to manage the cluster and ensure its resiliency and automation.
-Airport
-
-![alt text](controlPlane.png)
-
-
-
-# Kubernetes worker nodes:
-
-- Worker Nodes: These are like busy terminals in an airport where pods are scheduled and run.
-- Kubelet: An agent on every worker node that ensures containers in a pod are running and healthy.
-- Container Runtime: Starts containers using the container runtime interface (CRI) once the Kubelet assigns a new pod.
-- Kube-proxy: Ensures communication between pods and services on nodes and in the control plane.
-
-These components work together to manage and run the pods efficiently in a Kubernetes cluster.
-ATC
-
-![alt text](workerNodes.png)
-
-
-
-# Worflow: Time Sequence Diagram
-
-These steps illustrate the sequence of actions that occur to create a pod in a Kubernetes cluster.
-
-- kubectl Command: You run the command kubectl apply -f deployment.yaml from your computer.
-- Kube API Server: Receives the command and saves the deployment spec in etcd.
-- Kube Scheduler: Checks for new pods that need to be assigned to a node and assigns them.
-- Kubelet: On the worker node, it pulls the image and creates the container using the container runtime.
-- Pod Status: The kubelet sends the pod status back to the API server, which updates the state in etcd.
-
-![alt text](workflow.png)
-
-
-
-
-
-# Summary
-
-Kubernetes Cluster Components  
-A Comprehensive Glossary of Kubernetes Cluster Components
-Location in Cluster: Control Plane
-
-Cloud Controller Manager: Connects a Kubernetes cluster to a cloud provider's API, managing cloud-specific resources and ensuring proper integration with the underlying infrastructure
-etcd: A key-value store that saves all data about the state of the cluster; only the kube-apiserver can communicate directly with etcd
-kube-apiserver: The kube-apiserver is a key component of Kubernetes that exposes the Kubernetes API, handles most requests, and manages interactions with the cluster by processing and validating API requests, making it essential for the cluster's operation
-kube-controller-manager: Monitors the Kubernetes cluster's state, running processes to ensure the current state matches the desired state
-kube-scheduler: Identifies a newly created pod that has not been assigned a worker node and assigns it to a specific node
-Location in Cluster: Worker Nodes 
-
-Container Runtime: Pulls container images, creates and manages containers, and ensures they run properly and securely as directed by the Kubernetes control plane
-kube-proxy: A network proxy that runs on each node in a Kubernetes cluster, maintaining network rules and enabling communication between pods and services within the node and the control plane, while also communicating directly with the kube-apiserver
-kubelet: An agent that runs on each node in a Kubernetes cluster, ensuring containers in a pod are running and healthy while communicating with the API server in the control plane to maintain the desired state of the node
-
-
-Kubernetes v1.24 removed the Dockershim. How has this change impacted Kubernetes?
-Kubernetes can no longer use the Docker engine to run containers.
-It can still run docket images though.
-
-
-# Ways to manage k8 pods
-- Kubernetes Deployment: The most common way to deploy containerized applications, allowing control over the number of replicas and enabling no-downtime upgrades.
-- DaemonSet: Deploys one copy of a container on every node in the cluster, typically used for running background processes or collecting metrics. DaemonSets allow you to run one pod per node, which works well for running pods implementing background processes such as agents.
-- Kubernetes Job: Creates one or more pods to run a container until it completes its task, suitable for tasks that need to be run occasionally.
-
-
-# Running stateful workloads
-
-- External Database Connection: You can connect your application to a database running outside of your Kubernetes cluster, such as a managed database service like Azure SQL, Amazon RDS, or Google Cloud SQL.
-- Kubernetes Persistent Volumes: These are used for data storage within your cluster and remain even after a pod is destroyed. You can use a stateful set to ensure your application communicates with the same volume as the previous pod.
-- Two Main Approaches: 2 main approaches to making a stateful application work in your cluster: setting up an independent database or using Kubernetes Persistent Volumes.
-
-
-# k8 security
-- Add Security Context to Pods: Ensure containers run as non-root and make the file system read-only to prevent unauthorized access and modifications.
-- Scan YAML Manifests: Use tools like Snyk to scan your Kubernetes YAML manifests for security issues.
-- Regularly Update Kubernetes: Keep your Kubernetes version up-to-date, especially when security patches are released.
-
-These practices help protect your Kubernetes clusters from common security threats.
-
-
-
-
-
-sudo apt update
-sudo apt install -y nodejs npm
-
-node -v
-npm -v
-
-snyk --version
-
-snyk auth
-
-snyk iac test secure-deployment.yaml
-
-
-![alt text](image.png)
